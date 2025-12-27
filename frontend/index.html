@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Event Management System - Login</title>
+    <link rel="stylesheet" href="/css/style.css?v=1.1">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🎓 Event Manager</h1>
+                <p>College Event Management System</p>
+            </div>
+
+            <div id="errorMessage" class="error-message hidden"></div>
+            <div id="successMessage" class="success-message hidden"></div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" id="showRegister">Register here</a></p>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="hidden">
+                <form id="registerFormElement">
+                    <div class="form-group">
+                        <label for="regName">Full Name</label>
+                        <input type="text" id="regName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Password</label>
+                        <input type="password" id="regPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="regRole">Role</label>
+                        <select id="regRole" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="studentIdGroup" style="display: none;">
+                        <label for="regStudentId">Student ID</label>
+                        <input type="text" id="regStudentId">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js?v=1.1"></script>
+</body>
+</html>
+

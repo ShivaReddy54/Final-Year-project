@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Event Manager</title>
+    <link rel="stylesheet" href="/css/style.css?v=1.1">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1>👨‍💼 Admin Dashboard</h1>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <span id="adminName"></span>
+                        <button class="btn btn-danger btn-small" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Dashboard Stats -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="value" id="totalStudents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Events</h3>
+                    <div class="value" id="totalEvents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Upcoming Events</h3>
+                    <div class="value" id="upcomingEvents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Coins Distributed</h3>
+                    <div class="value" id="coinsDistributed">0</div>
+                    <div class="subtext">Total coins given to winners</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div style="display: flex; gap: 20px;">
+                        <button class="btn btn-primary btn-small" onclick="showTab('events')">Events</button>
+                        <button class="btn btn-secondary btn-small" onclick="showTab('students')">Students</button>
+                        <button class="btn btn-success btn-small" onclick="showTab('coins')">Coin Management</button>
+                    </div>
+                    <button class="btn btn-primary btn-small" onclick="openCreateEventModal()">+ Create Event</button>
+                </div>
+
+                <!-- Events Tab -->
+                <div id="eventsTab" class="tab-content">
+                    <div id="eventsList" class="events-grid"></div>
+                </div>
+
+                <!-- Students Tab -->
+                <div id="studentsTab" class="tab-content hidden">
+                    <div class="search-filters">
+                        <div class="form-group">
+                            <label>Search</label>
+                            <input type="text" id="studentSearch" placeholder="Name, Student ID, or Email">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Events</label>
+                            <input type="number" id="minEvents" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Events</label>
+                            <input type="number" id="maxEvents" min="0" placeholder="Any">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Coins</label>
+                            <input type="number" id="minCoins" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Coins</label>
+                            <input type="number" id="maxCoins" min="0" placeholder="Any">
+                        </div>
+                        <button class="btn btn-primary btn-small" onclick="searchStudents()">Search</button>
+                    </div>
+                    <div id="studentsList"></div>
+                </div>
+
+                <!-- Coins Tab -->
+                <div id="coinsTab" class="tab-content hidden">
+                    <div class="content-section">
+                        <h2>Manual Coin Management</h2>
+                        <form id="coinManagementForm" onsubmit="manageCoins(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Select Student</label>
+                                    <select id="coinStudentSelect" required>
+                                        <option value="">Select Student</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount</label>
+                                    <input type="number" id="coinAmount" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Type</label>
+                                    <select id="coinType" required>
+                                        <option value="add">Add Coins</option>
+                                        <option value="subtract">Subtract Coins</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <input type="text" id="coinReason" required placeholder="Reason for coin adjustment">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Coins</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div id="createEventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Event</h3>
+                <button class="close-btn" onclick="closeCreateEventModal()">&times;</button>
+            </div>
+            <form id="createEventForm">
+                <div class="form-group">
+                    <label>Event Name</label>
+                    <input type="text" id="eventName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="eventDescription" rows="3" required style="width: 100%; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px;"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date & Time</label>
+                        <input type="datetime-local" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="eventLocation" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Max Participants</label>
+                        <input type="number" id="eventMaxParticipants" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Coins Allocated</label>
+                        <input type="number" id="eventCoins" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Number of Winners</label>
+                        <input type="number" id="eventWinners" min="1" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Registrations Modal -->
+    <div id="registrationsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="registrationsModalTitle">Event Registrations</h3>
+                <button class="close-btn" onclick="closeRegistrationsModal()">&times;</button>
+            </div>
+            <div id="registrationsList"></div>
+        </div>
+    </div>
+
+    <!-- Declare Winners Modal -->
+    <div id="winnersModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Declare Winners</h3>
+                <button class="close-btn" onclick="closeWinnersModal()">&times;</button>
+            </div>
+            <div id="winnersList"></div>
+            <button class="btn btn-success mt-20" onclick="declareWinners()">Declare Selected Winners</button>
+        </div>
+    </div>
+
+    <script src="/js/admin.js?v=2.0"></script>
+</body>
+</html>
+

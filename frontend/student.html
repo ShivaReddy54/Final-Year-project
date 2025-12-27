@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Event Manager</title>
+    <link rel="stylesheet" href="/css/style.css?v=1.1">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <div class="header-content">
+                <h1>🎓 Student Dashboard</h1>
+                <div class="header-actions">
+                    <div class="user-info">
+                        <span id="studentName"></span>
+                        <span class="coin-badge" id="coinBadge">💰 0 Coins</span>
+                        <button class="btn btn-primary btn-small" onclick="toggleNotifications()">🔔 Notifications</button>
+                        <button class="btn btn-danger btn-small" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Profile Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>My Coins</h3>
+                    <div class="value" id="totalCoins">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Events Participated</h3>
+                    <div class="value" id="eventsParticipated">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Upcoming Events</h3>
+                    <div class="value" id="myUpcomingEvents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Registrations</h3>
+                    <div class="value" id="totalRegistrations">0</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div style="display: flex; gap: 20px;">
+                        <button class="btn btn-primary btn-small" onclick="showTab('events')">Upcoming Events</button>
+                        <button class="btn btn-secondary btn-small" onclick="showTab('history')">My History</button>
+                        <button class="btn btn-success btn-small" onclick="showTab('profile')">Profile</button>
+                    </div>
+                </div>
+
+                <!-- Events Tab -->
+                <div id="eventsTab" class="tab-content">
+                    <div id="eventsList" class="events-grid"></div>
+                </div>
+
+                <!-- History Tab -->
+                <div id="historyTab" class="tab-content hidden">
+                    <h3 class="mb-20">Event Registrations</h3>
+                    <div id="registrationsHistory" class="table-container mb-20"></div>
+                    
+                    <h3 class="mb-20">Coin History</h3>
+                    <div id="coinHistory" class="table-container"></div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="profileTab" class="tab-content hidden">
+                    <div class="content-section">
+                        <h3>Personal Information</h3>
+                        <div id="profileInfo" class="mt-20"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Panel -->
+        <div id="notificationsPanel" class="notifications-panel">
+            <div style="padding: 15px; border-bottom: 2px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3>Notifications</h3>
+                <button class="btn btn-primary btn-small" onclick="toggleNotifications()">Close</button>
+            </div>
+            <div id="notificationsList"></div>
+        </div>
+    </div>
+
+    <script src="/js/student.js?v=1.1"></script>
+</body>
+</html>
+
